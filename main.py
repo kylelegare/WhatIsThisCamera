@@ -1,5 +1,4 @@
 import subprocess
-import io
 import openai
 import time
 import os
@@ -19,18 +18,34 @@ def analyze_image(image_path):
   # Initialize OpenAI client
   openai.api_key = os.getenv('OPENAI_API_KEY')
 
-  # Read image data
-  with open(image_path, 'rb') as image_file:
-    image_data = image_file.read()
-
-  # Upload the image to OpenAI and analyze it
   try:
-    response = openai.Image.create(model="openai-vision-latest",
-                                   file=image_data,
-                                   tasks=["classify"])
+    # Open the image file in binary mode
+    with open(image_path, 'rb') as image_file:
+      # Upload the image to OpenAI
+      image_data = openai.File.create(file=image_file, purpose='answers')
+      image_url = image_data['url']
+
+    # Create a conversation completion to analyze the image
+    response = openai.ChatCompletion.create(model="gpt-4-turbo",
+                                            messages=[{
+                                                "role":
+                                                "user",
+                                                "content": [{
+                                                    "type":
+                                                    "text",
+                                                    "text":
+                                                    "What's in this image?"
+                                                }, {
+                                                    "type":
+                                                    "image_url",
+                                                    "image_url":
+                                                    image_url
+                                                }]
+                                            }])
 
     # Print the result
-    print(response['data'][0]['response']['results'])
+    print(response['choices'][0]['message']['content'])
+
   except Exception as e:
     print(f"An error occurred: {e}")
 
