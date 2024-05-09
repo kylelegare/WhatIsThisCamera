@@ -5,24 +5,24 @@ import os
 
 # Function to capture an image using libcamera-still
 def capture_image(image_path):
-    # Use libcamera-still to capture an image
     try:
         subprocess.run(['libcamera-still', '-o', image_path], check=True)
     except subprocess.CalledProcessError as e:
         print(f"An error occurred while capturing the image: {e}")
 
-# Function to encode the image in base64
-def encode_image(image_path):
+# Function to encode the image in base64 and create a data URI
+def encode_image_to_data_uri(image_path):
     with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode('utf-8')
+        base64_image = base64.b64encode(image_file.read()).decode('utf-8')
+        return f"data:image/jpeg;base64,{base64_image}"
 
 # Function to analyze the captured image using OpenAI
 def analyze_image(image_path):
     # Get the API key from environment variables
     api_key = os.getenv('OPENAI_API_KEY')
 
-    # Encode the image
-    base64_image = encode_image(image_path)
+    # Encode the image as a Data URI
+    image_data_uri = encode_image_to_data_uri(image_path)
 
     # Headers for the OpenAI API request
     headers = {
@@ -38,7 +38,7 @@ def analyze_image(image_path):
                 "role": "user",
                 "content": [
                     {"type": "text", "text": "What’s in this image?"},
-                    {"type": "image", "image": {"data_base64": base64_image}}
+                    {"type": "image_url", "image_url": {"url": image_data_uri}}
                 ]
             }
         ],
@@ -50,14 +50,11 @@ def analyze_image(image_path):
 
     # Print the result from OpenAI
     try:
-        # Attempt to parse and print the response
         print(response.json()['choices'][0]['message']['content'])
     except KeyError:
-        # If there's an issue in the path, print the whole response to debug
         print(response.json())
 
 if __name__ == "__main__":
-    # Path where the image will be saved
     image_path = 'captured_image.jpg'
 
     # Capture an image
