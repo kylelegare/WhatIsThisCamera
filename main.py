@@ -2,6 +2,7 @@ import subprocess
 import io
 import openai
 import time
+import os
 
 
 # Function to capture an image using libcamera-still
