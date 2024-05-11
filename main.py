@@ -24,7 +24,7 @@ if __name__ == "__main__":
             text_to_speech(result, speech_file_path)
 
             # Play the speech file
-            subprocess.run(['aplay', str(speech_file_path)])
+            subprocess.run(['mpg123', str(speech_file_path)])
 
             continue_prompt = input("Take another photo? (y/n): ").strip().lower()
             if continue_prompt != 'y':
