@@ -28,7 +28,7 @@ def analyze_image(image_path):
             "user",
             "content": [{
                 "type": "text",
-                "text": "What’s in this image?"
+                "text": "Provide a simple description of what's in this picture"
             }, {
                 "type": "image_url",
                 "image_url": {
