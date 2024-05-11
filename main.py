@@ -18,7 +18,7 @@ if __name__ == "__main__":
             print(result)
 
             # Path where the speech will be saved
-            speech_file_path = Path("speech.wav")
+            speech_file_path = Path("speech.mp3")
 
             # Convert text to speech
             text_to_speech(result, speech_file_path)
