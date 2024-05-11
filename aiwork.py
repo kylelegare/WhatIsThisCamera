@@ -43,7 +43,8 @@ def text_to_speech(text, speech_file_path):
     response = client.audio.speech.create(
         model="tts-1",
         voice="alloy",
-        input=text
+        input=text,
+        output-"wav"
     )
     # Write the binary audio content to a file
     with open(speech_file_path, "wb") as audio_file:
