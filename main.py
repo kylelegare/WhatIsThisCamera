@@ -1,34 +1,40 @@
+from gpiozero import Button
 from camera import capture_image
 from aiwork import analyze_image, text_to_speech
 import subprocess
 from pathlib import Path
+import time
 
-if __name__ == "__main__":
-    while True:
-        user_input = input("Want to take a photo? (y/n): ").strip().lower()
-        if user_input == 'y':
-            # Path where the image will be saved
-            image_path = 'captured_image.jpg'
+# Initialize the button
+# The Button is connected to GPIO 17 on the ReSpeaker 2-Mics Pi HAT
+button = Button(17)
 
-            # Capture the image
-            capture_image(image_path)
+def handle_button_press():
+    print("Button pressed! Taking photo...")
+    # Path where the image will be saved
+    image_path = 'captured_image.jpg'
 
-            # Analyze the image
-            result = analyze_image(image_path)
-            print(result)
+    # Capture the image
+    capture_image(image_path)
 
-            # Path where the speech will be saved
-            speech_file_path = Path("speech.mp3")
+    # Analyze the image
+    result = analyze_image(image_path)
+    print(result)
 
-            # Convert text to speech
-            text_to_speech(result, speech_file_path)
+    # Path where the speech will be saved
+    speech_file_path = Path("speech.mp3")
 
-            # Play the speech file
-            subprocess.run(['mpg123', str(speech_file_path)])
+    # Convert text to speech
+    text_to_speech(result, speech_file_path)
 
-            continue_prompt = input("Take another photo? (y/n): ").strip().lower()
-            if continue_prompt != 'y':
-                break
-        else:
-            print("Exiting...")
-            break
+    # Play the speech file using mpg123
+    subprocess.run(['mpg123', str(speech_file_path)])
+
+# Assign the handler to the button press event
+button.when_pressed = handle_button_press
+
+print("Ready! Press the button to take a photo.")
+
+# Keep the program running to monitor the button
+while True:
+    time.sleep(0.1)
