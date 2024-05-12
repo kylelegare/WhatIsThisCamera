@@ -14,7 +14,7 @@ def handle_button_press(channel):
     global last_press_time
     current_time = time.time()
 
-    if (current_time - last_press_time) < 0.5:  # 500 ms debounce
+    if (current_time - last_press_time) < 1.0:  # 1000 ms debounce
         return
 
     last_press_time = current_time
