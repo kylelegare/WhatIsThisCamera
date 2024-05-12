@@ -30,7 +30,7 @@ def analyze_image(image_path):
                 "type":
                 "text",
                 "text":
-                "Explain only the main focus of the image. Example, if the main focus is a cat then just say that is a cat. You can also add in a brief compliment for the photo, like with our cat example you can say and what a cute cat it is. "
+                "Explain only the subject of the image. Example, if the main subject is a cat then just say 'that is a cat'. You can also add in a brief compliment for the photo, like with our cat example you can say 'and what a cute cat it is'. You can pick compliments typically associated with that subject.  "
             }, {
                 "type": "image_url",
                 "image_url": {
