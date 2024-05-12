@@ -1,15 +1,15 @@
-from gpiozero import Button
+import RPi.GPIO as GPIO
 from camera import capture_image
 from aiwork import analyze_image, text_to_speech
 import subprocess
 from pathlib import Path
 import time
 
-# Initialize the button
-# The Button is connected to GPIO 17 on the ReSpeaker 2-Mics Pi HAT
-button = Button(17)
+# Initialize GPIO
+GPIO.setmode(GPIO.BCM)  # Use Broadcom pin numbering
+GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Button pin set as input with an internal pull-up resistor
 
-def handle_button_press():
+def handle_button_press(channel):
     print("Button pressed! Taking photo...")
     # Path where the image will be saved
     image_path = 'captured_image.jpg'
@@ -30,11 +30,15 @@ def handle_button_press():
     # Play the speech file using mpg123
     subprocess.run(['mpg123', str(speech_file_path)])
 
-# Assign the handler to the button press event
-button.when_pressed = handle_button_press
+# Add event detection to the button pin
+GPIO.add_event_detect(17, GPIO.FALLING, callback=handle_button_press, bouncetime=300)
 
-print("Ready! Press the button to take a photo.")
-
-# Keep the program running to monitor the button
-while True:
-    time.sleep(0.1)
+try:
+    print("Ready! Press the button to take a photo.")
+    # Keep the program running to monitor the button
+    while True:
+        time.sleep(0.1)
+except KeyboardInterrupt:
+    print("Exiting...")
+finally:
+    GPIO.cleanup()  # Clean up GPIO on exit
