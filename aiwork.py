@@ -27,8 +27,10 @@ def analyze_image(image_path):
             "role":
             "user",
             "content": [{
-                "type": "text",
-                "text": "Provide a simple description of what's in this picture"
+                "type":
+                "text",
+                "text":
+                "Explain only the main focus of the image. Example, if the main focus is a cat then just say that is a cat. You can also add in a brief compliment for the photo, like with our cat example you can say and what a cute cat it is. "
             }, {
                 "type": "image_url",
                 "image_url": {
