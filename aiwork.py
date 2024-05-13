@@ -22,7 +22,7 @@ def analyze_image(image_path):
 
     payload = {
         "model":
-        "gpt-4-turbo",
+        "gpt-4o",
         "messages": [{
             "role":
             "user",
