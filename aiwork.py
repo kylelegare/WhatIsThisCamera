@@ -30,7 +30,7 @@ def analyze_image(image_path):
                 "type":
                 "text",
                 "text":
-                "Explain only the subject of the image. Example, if the main subject is a cat then just say 'that is a grey cat' or 'that is a fluffy cat'. You should also share a very brief but fun fact about the subject."
+                "Explain only the subject of the image. Example, if the main subject is a cat then just say 'that is a grey cat' or 'that is a fluffy cat' "
             }, {
                 "type": "image_url",
                 "image_url": {
