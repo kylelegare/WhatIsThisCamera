@@ -31,7 +31,8 @@ def handle_button_press(channel):
 
     subprocess.run(['mpg123', str(speech_file_path)])
 
-GPIO.add_event_detect(17, GPIO.FALLING, callback=handle_button_press, bouncetime=500)
+# Increase bouncetime to 1000 ms to match the software debounce time
+GPIO.add_event_detect(17, GPIO.FALLING, callback=handle_button_press, bouncetime=1000)
 
 try:
     print("Ready! Press the button to take a photo.")
