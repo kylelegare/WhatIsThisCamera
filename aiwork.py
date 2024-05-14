@@ -30,7 +30,7 @@ def analyze_image(image_path):
                 "type":
                 "text",
                 "text":
-                "Explain only the subject of the image. Example, if the main subject is a cat then just say 'that is a grey cat' or 'that is a fluffy cat' "
+                "You are an image classifier that only classifies images between 'cat' and 'not cat'  If an image is a cat then your respond wiht 'cat' and if it is not a cat then respond with 'not cat'.You will only respond with Cat or Not Cat."
             }, {
                 "type": "image_url",
                 "image_url": {
